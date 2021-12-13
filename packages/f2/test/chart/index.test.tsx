@@ -32,8 +32,8 @@ describe('Chart', () => {
     canvas.render();
     const chart = chartRef.current;
 
-    expect(chart.coord.left).toBeCloseTo(34.5);
-    expect(chart.coord.width).toBeCloseTo(250.5);
+    expect(chart.coord.left).toBeCloseTo(33.62);
+    expect(chart.coord.width).toBeCloseTo(251.38);
 
     await delay(1000);
     expect(context).toMatchImageSnapshot();
@@ -57,8 +57,8 @@ describe('Chart', () => {
       ).props
     );
 
-    expect(chart.coord.left).toBeCloseTo(84.5);
-    expect(chart.coord.width).toBeCloseTo(50.5);
+    expect(chart.coord.left).toBeCloseTo(83.62);
+    expect(chart.coord.width).toBeCloseTo(51.38);
     await delay(1000);
     expect(context).toMatchImageSnapshot();
   });

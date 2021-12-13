@@ -25,7 +25,7 @@ describe('Theme', () => {
       const canvas = new Canvas(props);
       canvas.render();
 
-      expect(textRef.current.width).toBeCloseTo(29.58);
+      expect(textRef.current.width).toBeCloseTo(30.02);
     });
 
     it('自定义设置', () => {

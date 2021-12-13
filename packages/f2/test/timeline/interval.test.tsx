@@ -88,12 +88,12 @@ describe('Chart', () => {
 
     const interval = intervalRef.current;
     expect(interval.records.length).toBe(5);
-    expect(interval.records[0].children[0].x).toBeCloseTo(89.507);
+    expect(interval.records[0].children[0].x).toBeCloseTo(88.2);
     expect(interval.records[0].children[0].y).toBeCloseTo(422.25);
 
     await delay(2000);
     expect(interval.records.length).toBe(5);
-    expect(interval.records[0].children[0].x).toBeCloseTo(98.8166);
+    expect(interval.records[0].children[0].x).toBeCloseTo(97.57);
     expect(interval.records[0].children[0].y).toBeCloseTo(422.25);
   });
 });
