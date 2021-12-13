@@ -1,17 +1,13 @@
-// @ts-nocheck
 import { jsx } from '../../../src';
 import { Polar, Rect } from '../../../src/coord';
 import { Canvas, Chart } from '../../../src';
 import { Interval, Axis, Legend, Tooltip } from '../../../src/components';
-import { createContext } from '../../util';
+import { createContext, delay } from '../../util';
 
 describe('柱图示例', () => {
   // 基础
-  it('基础柱状图', () => {
-    const context = createContext('基础柱状图', {
-      height: '300px',
-      width: '400px',
-    });
+  it('基础柱状图', async () => {
+    const context = createContext('基础柱状图');
     const data = [
       {
         year: '1951 年',
@@ -46,8 +42,8 @@ describe('柱图示例', () => {
         sales: 38,
       },
     ];
-    const { type, props } = (
-      <Canvas context={context}>
+    const { props } = (
+      <Canvas context={context} pixelRatio={1}>
         <Chart data={data}>
           <Axis field="year" />
           <Axis field="sales" />
@@ -55,15 +51,14 @@ describe('柱图示例', () => {
         </Chart>
       </Canvas>
     );
-    // @ts-ignore
-    const canvas = new type(props);
+    const canvas = new Canvas(props);
     canvas.render();
+
+    await delay(1000);
+    expect(context).toMatchImageSnapshot();
   });
-  it('区间柱状图', () => {
-    const context = createContext('区间柱状图', {
-      height: '300px',
-      width: '400px',
-    });
+  it('区间柱状图', async () => {
+    const context = createContext('区间柱状图');
     const data = [
       {
         x: '分类一',
@@ -98,8 +93,8 @@ describe('柱图示例', () => {
         y: [18, 34],
       },
     ];
-    const { type, props } = (
-      <Canvas context={context}>
+    const { props } = (
+      <Canvas context={context} pixelRatio={1}>
         <Chart data={data}>
           <Axis field="x" />
           <Axis field="y" />
@@ -107,15 +102,14 @@ describe('柱图示例', () => {
         </Chart>
       </Canvas>
     );
-    // @ts-ignore
-    const canvas = new type(props);
+    const canvas = new Canvas(props);
     canvas.render();
+
+    await delay(1000);
+    expect(context).toMatchImageSnapshot();
   });
-  it('渐变色柱状图', () => {
-    const context = createContext('区间柱状图', {
-      height: '300px',
-      width: '400px',
-    });
+  it('渐变色柱状图', async () => {
+    const context = createContext('区间柱状图');
     const data = [
       {
         year: '2014 年',
@@ -143,8 +137,8 @@ describe('柱图示例', () => {
         name: '1',
       },
     ];
-    const { type, props } = (
-      <Canvas context={context}>
+    const { props } = (
+      <Canvas context={context} pixelRatio={1}>
         <Chart data={data}>
           <Axis field="year" />
           <Axis field="sales" />
@@ -152,16 +146,15 @@ describe('柱图示例', () => {
         </Chart>
       </Canvas>
     );
-    // @ts-ignore
-    const canvas = new type(props);
+    const canvas = new Canvas(props);
     canvas.render();
+
+    await delay(1000);
+    expect(context).toMatchImageSnapshot();
   });
 
-  it('纹理柱状图', () => {
-    const context = createContext('纹理柱状图', {
-      height: '300px',
-      width: '400px',
-    });
+  it('纹理柱状图', async () => {
+    const context = createContext('纹理柱状图');
     const data = [
       {
         year: '1951 年',
@@ -185,26 +178,29 @@ describe('柱图示例', () => {
       },
     ];
 
-    // @ts-ignore
-    const img = new Image();
-    img.src = 'https://gw.alipayobjects.com/zos/rmsportal/cNOctfQVgZmwaXeBITuD.jpg';
+    const pattern = await new Promise((resolve) => {
+      const img = new Image();
+      img.src = 'https://gw.alipayobjects.com/zos/rmsportal/cNOctfQVgZmwaXeBITuD.jpg';
+      img.onload = function() {
+        const pattern = context.createPattern(img, 'repeat');
+        resolve(pattern);
+      };
+    });
 
-    img.onload = function () {
-      const pattern = context.createPattern(img, 'repeat');
+    const { props } = (
+      <Canvas context={context} pixelRatio={1}>
+        <Chart data={data}>
+          <Axis field="year" />
+          <Axis field="sales" />
+          <Interval x="year" y="sales" color={pattern} />
+        </Chart>
+      </Canvas>
+    );
 
-      const { type, props } = (
-        <Canvas context={context}>
-          <Chart data={data}>
-            <Axis field="year" />
-            <Axis field="sales" />
-            <Interval x="year" y="sales" color={pattern} />
-          </Chart>
-        </Canvas>
-      );
+    const canvas = new Canvas(props);
+    canvas.render();
 
-      const canvas = new type(props);
-
-      canvas.render();
-    };
+    await delay(1000);
+    expect(context).toMatchImageSnapshot();
   });
 });

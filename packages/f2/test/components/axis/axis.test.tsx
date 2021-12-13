@@ -2,7 +2,7 @@ import { jsx } from '../../../src';
 import { Polar, Rect } from '../../../src/coord';
 import { Canvas, Chart } from '../../../src';
 import { Interval, Axis, Line, Legend, Tooltip, Point, Area } from '../../../src/components';
-import { createContext } from '../../util';
+import { createContext, delay } from '../../util';
 import valuationData from './data/valuation.json';
 import bubbleData from './data/bubble.json';
 
@@ -12,7 +12,7 @@ function numberToMoney(n) {
 
 describe('Axis 轴', () => {
   // 基础
-  it('文本换行', () => {
+  it('文本换行', async () => {
     const context = createContext('文本换行');
 
     const data = [
@@ -49,8 +49,8 @@ describe('Axis 轴', () => {
         value: 330824,
       },
     ];
-    const { type, props } = (
-      <Canvas context={context}>
+    const { props } = (
+      <Canvas context={context} pixelRatio={1}>
         <Chart data={data}>
           <Axis field="time" />
           <Axis field="value" />
@@ -58,12 +58,14 @@ describe('Axis 轴', () => {
         </Chart>
       </Canvas>
     );
-    // @ts-ignore
-    const canvas = new type(props);
+    const canvas = new Canvas(props);
     canvas.render();
+
+    await delay(1000);
+    expect(context).toMatchImageSnapshot();
   });
 
-  it('旋转', () => {
+  it('旋转', async () => {
     const context = createContext('旋转');
 
     const data = [
@@ -148,8 +150,8 @@ describe('Axis 轴', () => {
         NumberNewMicroBrewery: 1,
       },
     ];
-    const { type, props } = (
-      <Canvas context={context}>
+    const { props } = (
+      <Canvas context={context} pixelRatio={1}>
         <Chart data={data}>
           <Axis
             field="Year"
@@ -178,15 +180,17 @@ describe('Axis 轴', () => {
         </Chart>
       </Canvas>
     );
-    // @ts-ignore
-    const canvas = new type(props);
+    const canvas = new Canvas(props);
     canvas.render();
+
+    await delay(1000);
+    expect(context).toMatchImageSnapshot();
   });
 
-  it('label 回调', () => {
+  it('label 回调', async () => {
     const context = createContext('label 回调');
-    const { type, props } = (
-      <Canvas context={context}>
+    const { props } = (
+      <Canvas context={context} pixelRatio={1}>
         <Chart data={valuationData}>
           <Axis field="index" />
           <Axis
@@ -216,16 +220,18 @@ describe('Axis 轴', () => {
         </Chart>
       </Canvas>
     );
-    // @ts-ignore
-    const canvas = new type(props);
+    const canvas = new Canvas(props);
     canvas.render();
+
+    await delay(1000);
+    expect(context).toMatchImageSnapshot();
   });
 
-  it('grid样式', () => {
+  it('grid样式', async () => {
     const context = createContext('grid样式');
 
-    const { type, props } = (
-      <Canvas context={context}>
+    const { props } = (
+      <Canvas context={context} pixelRatio={1}>
         <Chart
           data={bubbleData}
           scale={{
@@ -276,12 +282,14 @@ describe('Axis 轴', () => {
         </Chart>
       </Canvas>
     );
-    // @ts-ignore
-    const canvas = new type(props);
+    const canvas = new Canvas(props);
     canvas.render();
+
+    await delay(1000);
+    expect(context).toMatchImageSnapshot();
   });
 
-  it('grid回调', () => {
+  it('grid回调', async () => {
     const context = createContext('grid样式');
     const data = [
       {
@@ -410,8 +418,8 @@ describe('Axis 轴', () => {
       return String(Math.floor(n * 100) / 100).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
 
-    const { type, props } = (
-      <Canvas context={context}>
+    const { props } = (
+      <Canvas context={context} pixelRatio={1}>
         <Chart
           data={data}
           scale={{
@@ -469,12 +477,14 @@ describe('Axis 轴', () => {
         </Chart>
       </Canvas>
     );
-    // @ts-ignore
-    const canvas = new type(props);
+    const canvas = new Canvas(props);
     canvas.render();
+
+    await delay(1000);
+    expect(context).toMatchImageSnapshot();
   });
 
-  it('弧形网格线', () => {
+  it('弧形网格线', async () => {
     const context = createContext('弧形网格线');
     const data = [
       {
@@ -503,8 +513,8 @@ describe('Axis 轴', () => {
       },
     ];
 
-    const { type, props } = (
-      <Canvas context={context}>
+    const { props } = (
+      <Canvas context={context} pixelRatio={1}>
         <Chart
           data={data.reverse()}
           scale={{
@@ -541,8 +551,10 @@ describe('Axis 轴', () => {
         </Chart>
       </Canvas>
     );
-    // @ts-ignore
-    const canvas = new type(props);
+    const canvas = new Canvas(props);
     canvas.render();
+
+    await delay(1000);
+    expect(context).toMatchImageSnapshot();
   });
 });

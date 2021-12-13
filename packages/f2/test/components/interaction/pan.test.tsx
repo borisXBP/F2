@@ -48,16 +48,24 @@ describe('Interaction 交互', () => {
 
     const chart = chartRef.current;
 
+    await delay(800);
+    expect(context).toMatchImageSnapshot();
+
     const interactionContext = chart.interaction.context;
     interactionContext.doZoom(0.5, 0.5, 1.5);
 
     await delay(100);
+    expect(context).toMatchImageSnapshot();
     interactionContext.start();
     interactionContext.doMove(-0.008);
 
     await delay(100);
+    expect(context).toMatchImageSnapshot();
     expect(chart.coord.top).toBe(15);
-    expect(chart.coord.left).toBeCloseTo(41.96);
+    expect(chart.coord.left).toBeCloseTo(43.14);
     expect(chart.coord.bottom).toBeCloseTo(267.5);
+
+    await delay(50);
+    expect(context).toMatchImageSnapshot();
   });
 });
